@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Notifications API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Notifications API</span> позволяем отправлять уведомления через браузер. Вы можете задавать иконку для каждого уведомления, группировать уведомления, указывать заголовок и текст уведомления.</p>
+
+<h3>Способ создания</h3>
+<div class="code-block">
+<pre><code class="language-javascript">var notification = new Notification(theme, {
+    tag: 'hi, tag',
+    body: 'lorem ipsum',
+    icon: 'https://avatars1.githubusercontent.com/u/5993559?v=3&s=460'
+});
+</code></pre>
+</div>
+<ul class="page-list">
+  <li><span class="highlight">theme</span> - заголок уведомления(required*).</li>
+  <li><span class="highlight">tag</span> - тег, который объединяет уведомления(уведомления с одинаковым тегом будут взаимозаменяться).</li>
+  <li><span class="highlight">icon</span> - иконка уведомления.</li>
+</ul>
+
+<h3>События</h3>
+<div class="code-block">
+<pre><code class="language-javascript">
+// Event handlers
+notification.onclick = function() {};
+notification.onerror = function() {};
+// Deprecated event handlers?
+notification.onclose = function() {};
+notification.onshow = function() {};
+</code></pre>
+</div>
+<ul class="page-list">
+  <li><span class="highlight">onclick</span> - клик на тело уведомления.</li>
+  <li><span class="highlight">onerror</span> - ошибка при показе уведомления.</li>
+  <li><span class="highlight">onclose</span> - закрытие уведомления.</li>
+  <li><span class="highlight">onshow</span> - показ уведомления.</li>
+</ul>
+
+<h3>Разрешите Вас проинформировать</h3>
+<div class="code-block">
+<p>Получить разрешение от юзера на показ уведомлений:</p>
+<pre><code class="language-javascript">
+Notification.requestPermission(function(permission) {
+    currentPermission = permission;
+});
+</code></pre>
+</div>
+<p>Прежде чем реквестать разрешение, желательно проверить его статус. Всего есть 3 вариации разрешения:</p>
+<ul class="page-list">
+   <li><span class="highlight">Default</span> - юзер увидит вопрос о желании сайта отправлять уведомления.</li>
+   <li><span class="highlight">Denied</span> - юзер запретил показ уведомлений</li>
+   <li><span class="highlight">Granted</span> -  можно спокойно создавать уведомление</li>
+ </ul>
+<pre><code class="language-javascript">
+switch (Notification.permission) {
+    case 'granted':
+        var notification = new Notification('hi', {
+            tag: 'tag',
+            body: 'body',
+            icon: 'https://avatars1.githubusercontent.com/u/5993559?v=3&s=460'
+        });
+        break;
+
+    case 'denied':
+        console.log('Oops');
+        break;
+
+    case 'default':
+        Notification.requestPermission(function(permission) {
+            currentPermission = permission;
+        });
+        break;
+}
+</code></pre>
+</div>
+
+</div>
+<h3>Example</h3>
+<div class="code-example">
+  <div class="notification-example">
+    <div class="notification-status">Current status of permissions: <span></span></div>
+    <form action="" method="">
+      <div class="form-row"><input type="text" name=title placeholder="Enter title*"></div>
+      <div class="form-row"><input type="text" name=body placeholder="Enter body"></div>
+      <div class="form-row"><input type="text" name=tag placeholder="Enter tag"></div>
+    </form>
+    <button class="notify">Notify me</button>
+  </div>
+  <div class="loggerArea">
+  </div>
+</div>
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/notification/">https://developer.mozilla.org/en-US/docs/Web/API/notification</a></li>
+  <li><a target="_blank" href="http://habrahabr.ru/post/183630/#comment_6382488">http://habrahabr.ru/post/183630/#comment_6382488</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<script src="notificationAPI.js"></script>
+</body>
+</html>

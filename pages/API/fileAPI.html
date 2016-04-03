@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>File API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Web Storage API</span> дает доступ к свойствам файла, который был выбран пользователем через файловую систему.</p>
+
+<h3>Обзор свойств</h3>
+<ul class="page-list">
+  <li><span class="highlight">fileInputElement.files</span> - возвращает коллекцию файл-объектов, который были выбраны пользователем.(</li>
+  <li><span class="highlight">file.name</span> - возвращает название файла без пути.</li>
+  <li><span class="highlight">file.size</span> - возвращает размер файла в байтах.</li>
+  <li><span class="highlight">file.type</span> - возвращает MIME-тип файла.</li>
+  <li><span class="highlight">file.lastModifiedDate</span> - возвращает последнюю дату изменения файла.</li>
+  <li><span class="highlight">fileReader.readAsText(file)</span> - Инициализирует процесс чтения файла и кодирует содержание файла в виде текста.</li>
+  <li><span class="highlight">fileReader.result</span> - результат после чтения файла.</li>
+  <li><span class="highlight">fileReader.addEventListener('load', eventHandler)</span> - триггерит ивент, когда операция чтения была завершена успешно.</li>
+</ul>
+
+<div class="code-block">
+<pre><code class="language-javascript">
+function onChangeHandler(event) {
+    // получили все файлы
+    var files = event.target.files;
+    var fileInfo;
+
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function(event) {
+            // файл был прочитан
+        });
+        reader.readAsText(file);
+        // информация о файле
+        fileInfo = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            date: file.lastModifiedDate
+        };
+    }
+}
+</code></pre>
+</div>
+
+<h3>Example</h3>
+<div class="code-example">
+  <div class="file-input">Выберите файл
+    <input type="file" id="input" multiple>
+  </div>
+  <div class="logger"></div>
+</div>
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications">https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications</a></li>
+  <li><a target="_blank" href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a></li>
+  <li><a target="_blank" href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">http://www.html5rocks.com/en/tutorials/file/dndfiles/</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<script src="fileAPI.js"></script>
+</body>
+</html>

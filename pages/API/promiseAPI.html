@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Promises</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Promise</span> - это специальный объект, который содержит своё состояние(объект представляет собой значение, которое вернется после завершения операции). Promise может быть только в 1 из 3 состояний: <span class="highlight">unfulfilled("ожидание"), </span><span class="highlight">fulfilled("выполнен успешно")</span> и <span class="highlight">failed("выполнен с ошибкой")</span>. Promise может переходить только из <span class="highlight">unfulfilled</span> в <span class="highlight">fulfilled</span> или из <span class="highlight">unfulfilled</span> в <span class="highlight">failed.</span> Если Promise уже перешел в одно из состояний, его значения уже не сможет измениться.</p>
+
+<h3>Способ создания</h3>
+<div class="code-block">
+<pre><code class="language-javascript">var promise = new Promise(function(resolve, reject) {
+    // В ней делаем любые операции(например, асинхронные)
+    // Когда они завершаются — вызываем
+
+    // при успешном выполнении:
+    resolve(result)
+    // при ошибке:
+    reject(error)
+});
+</code></pre>
+</div>
+<p>Повесим обработчики</p>
+<div class="code-block">
+<pre><code class="language-javascript">promise.then(onResolved, onRejected);</code></pre>
+</div>
+<ul class="page-list">
+  <li><span class="highlight">onResolved</span> - функция, которая вызовется при resolve промиса.</li>
+  <li><span class="highlight">onResolved</span> - функци, которая вывовется при reject промиса.</li>
+</ul>
+<h3>Промисификация</h3>
+<p>Удобней всего делать обертку над промисом, внутри которой он и будет возвращаться.</p>
+<div class="code-block">
+        <pre><code class="language-javascript">var getJSON = function(url) {
+    return new Promise(function(resolve, reject) {
+        var http = new XMLHttpRequest();
+        http.open('GET', url, true);
+
+        http.onload = function() {
+            if (http.status === 200) {
+                try {
+                    resolve(JSON.parse(http.response));
+                } catch(e) {
+                    reject(Error('JSON is not valid'));
+                }
+                
+            } else {
+                reject(Error(http.statusText));
+            }
+        };
+
+        http.onerror = function() {
+            reject(Error('Network error'))
+        };
+
+        http.send();
+    });
+};
+</code></pre>
+</div>
+<p>Использование:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJSON('http://swapi.co/api/planets/1/').then(function(response) {
+    // делаем неприличные вещи c response
+}, function(error) {
+    // или с error
+})
+</pre></code>
+</div>
+
+<h3>Верни меня, пожалуйста</h3>
+<p>Каждый промис  вам метод <span class="highlight">then()</span> (а еще <span class="highlight">catch()</span>, который на практике просто «сахар» для <span class="highlight">then(null, …))</span>. И вот мы внутри функции <span class="highlight">then()</span>:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    // где это я?
+});
+</pre></code>
+</div>
+<p>Что мы можем сделать тут? 3 вещи:</p>
+<ul class="page-list">
+  <li><span class="highlight">Вернуть другой промис</span> (return getJson(url)).</li>
+  <li><span class="highlight">Вернуть синхронное значение или undefined.</span></li>
+  <li><span class="highlight">Прокинуть синхронную ошибку</span> (throw new Error('No life')).</li>
+</ul>
+<h4>~ Вернуть другой промис</h4>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    return getJson(response.films[0]);
+}).then(function(film) {
+    // привет film
+})
+</pre></code>
+</div>
+<p>В первом <span class="highlight">then</span> возвращаем второй промис, используя <span class="highlight">return</span>. Если бы просто был вызван <span class="highlight">getJson</span> с фильмом, то да, был бы запрос за данными, был бы получен результат, который нигде бы не пригодился — следующий <span class="highlight">then</span> получил бы <span class="highlight">undefined</span>. Поэтому не забываем всегда возвращать промис с помощью <span class="highlight">return</span>.</p>
+<h4>~ Вернуть синхронное значение или undefined</h4>
+<p>Возвращение какого-либо синхронного значения — отличный способ преобразовать синхронный код в цепочку промисов.</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    if (cache[response.id]) {
+        // данные уже есть в кэше, вернем синхронное значение
+        return cache[response.id]
+    }
+    // если нету, вернем асинхронный промис
+    return getJson(user.id);
+  })
+  .then(function (id) {
+      // привет id (и мне неважно откуда ты пришел)
+});
+pre></code>
+</div>
+<p>Если не использовать <span class="highlight">return</span>, то функция все равно вернет значение, но им будет уже не результат вызова функции, а <span class="highlight">undefined</span>.</p>
+<p>Всегда использовать <span class="highlight">return</span> внутри <span class="highlight">then</span> или прокидывать ошибку при помощи <span class="highlight">throw</span>.</p>
+<h4>~ Прокинуть синхронную ошибку</h4>
+<p>Мы хотим прокинуть ошибку через <span class="highlight">throw</span>, если наш юзер не поклонник Star Wars.</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/people/1/').then(function(person) {
+    if (!person.loveStarWars) {
+        throw new Error('person is not a fan');
+    }
+
+    return getJson(person);
+})
+.then(function(person) {
+    // привет person
+})
+.catch(function(error) {
+    // привет error
+})
+</pre></code>
+</div>
+<p><span class="highlight">Catch</span> получит синхронную ошибку, если <span class="highlight">person</span> не любит Star Wars или же асинхронную, если внутренний промис перейдет с состояние <span class="highlight">reject</span>.</p>
+
+<h3>Promise.all</h3>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    response.films.forEach(function(film) {
+        getJson(film);
+    });
+})
+.then(function() {
+    // чего же я жду?
+})
+</pre></code>
+</div>
+<p>Что-то тут не так? Проблема в том, что <span class="highlight">callback</span> первого <span class="highlight">then</span> вернет <span class="highlight">undefined</span> и сразу перейдет на второй <span class="highlight">then</span>(на самом деле он может выполнить несколько запросов к фильмам, а может и не выполнить)</p>
+<p>При использовании <span class="highlight">forEach, for, while/...</span> нам нужно использовать <span class="highlight">Promise.all</span></p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    var allPromises = response.films.map(function(film) {
+        return getJson(film);
+    });
+
+    return Promise.all(allPromises);
+})
+.then(function(allFilms) {
+    // я жду всех вас
+})
+</pre></code>
+</div>
+<p><span class="highlight">Promise.all()</span> принимает в качестве аргумента массив промисов и возвращает новый промис, который «зарезолвится», только когда "зарезолвятся" все промисы из массива. Если хотя бы один промис из массива, переданного в <span class="highlight">Promise.all()</span> «зареджектится», то и результирующий промис перейдет в состояние <span class="highlight">rejected.</span> Также промис из <span class="highlight">Promise.all()</span> передаст в следующую функцию массив результатов.</p>
+
+<h3>Catch them all</h3>
+<p>Два примера ниже работают одинаково:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').catch(function(error) {
+    // привет
+});
+
+getJson('http://swapi.co/api/planets/1/').then(null, function(error) {
+    // привет
+});
+</pre></code>
+</div>
+<p>Но примеры ниже уже не равны:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    return getJson(response);
+})
+.catch(function (error) {
+    // привет error
+});
+
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    return getJson(response);
+}, function(error) {
+    // привет error
+});
+</pre></code>
+</div>
+<p>Посмотрим, что произойдет, если в первой функции возникнет ошибка:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    throw new Error('new error');
+})
+.catch(function (error) {
+    // я тебя словил
+});
+
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    throw new Error('new error');
+}, function(error) {
+    // ничего не словил
+});
+</pre></code>
+</div>
+<p>Если использовать формат <span class="highlight">then(onResolved, onRejected)</span>, то <span class="highlight">onRejected</span> не может поймать ошибку, возникшую внутри функции <span class="highlight">onResolved</span>.</p>
+
+<h3>Останься со мной</h3>
+<p>Бывает так, что в следющем <span class="highlight">then</span> мы хотим иметь результат предыдущего:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    return getJson(response.films[0]);
+})
+.then(function(film) {
+    // привет film, но я хочу еще и весь response
+});
+</pre></code>
+</div>
+<p>Можем делать так:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+var planets;
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    planets = response;
+    return getJson(response.films[0]);
+})
+.then(function(film) {
+    // привет film и planets
+});
+</pre></code>
+</div>
+<p>или так</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+getJson('http://swapi.co/api/planets/1/').then(function(response) {
+    return getJson(response.films[0])
+        .then(function(film) {
+            // привет film и response
+        });
+});
+</pre></code>
+</div>
+
+
+
+
+
+
+
+
+
+      <h3>Линки</h3>
+      <ul class="page-links">
+        <li><a href="https://promisesaplus.com/">https://promisesaplus.com/</a> (Спецификация Promises/A+)</li>
+        <li><a target="_blank" href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a> (JavaScript Promises by Jake Archibald)</li>
+        <li><a target="_blank" href="http://habrahabr.ru/post/209662/">http://habrahabr.ru/post/209662/</a> ( Перевод статьи выше)</li>
+        <li><a target="_blank" href="http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html">http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html</a>(We have a problem with promises by Nolan Lawson)</li>
+        <li><a target="_blank" href="http://habrahabr.ru/company/mailru/blog/269465/">http://habrahabr.ru/company/mailru/blog/269465/</a> (Перевод статьм выше)</li>
+        <li><a target="_blank" href="https://learn.javascript.ru/promise">https://learn.javascript.ru/promise</a></li>
+        <li><a target="_blank" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise">https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise</a></li>
+        <li><a target="_blank" href="https://github.com/kriskowal/q">https://github.com/kriskowal/q</a></li>
+        <li><a target="_blank" href="https://github.com/cujojs/when">https://github.com/cujojs/when</a></li>
+        <li><a target="_blank" href="https://github.com/tildeio/rsvp.js">https://github.com/tildeio/rsvp.js</a></li>
+      </ul>
+    </div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

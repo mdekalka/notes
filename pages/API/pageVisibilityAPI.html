@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page visibility API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Page Visibility API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Page Visibility API</span> позволяет узнавать, когда страница браузера активна(видна в данный момент времени). Когда юзер переходит на другую влкадку, ресайзит до минимума страницу/сворачивает браузер, <span class="highlight">API</span> посылает <span class="highlight">visibilitychange</span> ивент, с помощью которого можно определить 'видимость' страницы.</p>
+<p>Можно использовать для паузы аудио/видео/каруселей/слайдеров, остановке CPU-затратных UI анимаций.</p>
+
+<h3>Обзор свойств</h3>
+<ul class="page-list">
+  <li><span class="highlight">document.hidden</span> - возвращает <span class="highlight">true</span>, если страница свернута, проресайзена до минимума или является не активной(другая вкладка активна в данный момент времени), иначе возвращает <span class="highlight">false</span>.</li>
+  <li><span class="highlight">document.visibilityState</span> - строка, определяющая состояние видимости страницы. Возможные значения:
+    <ul>
+      <li><span class="highlight">visible</span> - страница является активной.</li>
+      <li><span class="highlight">hidden</span> - страница свернута, проресайзена до минимума или является не активной(другая вкладка активна в данный момент времени).</li>
+      <li><span class="highlight">prerender</span> - контент страницы пре-рендерится и не виден для юзера. Страница может загружаться с этим состоянием, но никогда не перейдет в это состояние из другого.</li>
+      <li><span class="highlight">unloaded</span> - страница была выгружена из памяти.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Example</h3>
+<div class="code-example">
+  <div class="visibility">Init page visibility was <span class="highlight">asd</span></div>
+  <div class="visibility-logger"></div>
+
+  <div class="audio-example">
+    <p>Аудио будет паузиться при смене статуса на <span class="highlight">hidden</span>(переключись на другую вкладку, сверни браузер или проресайзи до минимума.</p>
+    <audio controls class="audio">
+      <source src="../../assets/Lumen - Отвали.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+</div>
+
+<p>Достать нужный префикс для саппорат старых версий можно так:</p>
+<div class="code-block">
+<pre><code class="language-javascript">var browserPrefixes = ['webkit', 'moz', 'ms', 'o'];
+
+getPrefix: function() {
+    var hidden;
+    var event;
+
+    if (document.hidden !== 'undefined') {
+        hidden = 'hidden';
+        event = 'visibilitychange';
+    } else {
+        this.browserPrefixes.forEach(function(pref) {
+            if (document[pref + 'Hidden'] !== 'undefined') {
+                hidden = pref + 'Hidden';
+                event = pref + 'visibilitychange';
+                return;
+            }
+        })
+    }
+    // возвращаем поддерживаемое сво-во hidden и event
+    return {
+        hidden: hidden,
+        event: event
+    };
+}
+</code></pre>
+</div>
+<p>И по триггеру ивента - делать задуманное(стандартное св-во <span class="highlight">hidden</span> и <span class="highlight">visibilitychange</span> для примера).</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+document.addEventListener('visibilitychange', onVisibilityChangeThis, false);
+
+handleVisibilityChange: function() {
+    if (document[hidden]) {
+        // страница скрыта, остановим анимацию/аудио/видео
+    } else {
+        // страница активна, запустим обратно
+    }
+},
+</code></pre>
+</div>
+
+
+
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API">https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API</a></li>
+  <li><a target="_blank" href="http://www.sitepoint.com/introduction-to-page-visibility-api/">http://www.sitepoint.com/introduction-to-page-visibility-api/</a></li>
+  <li><a target="_blank" href="https://w3c.github.io/page-visibility/">https://w3c.github.io/page-visibility/</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<script src="pageVisibilityAPI.js"></script>
+</body>
+</html>

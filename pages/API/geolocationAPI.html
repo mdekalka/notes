@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geolocation API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Geolocation API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Geolocation API</span> позволяет приложению узнать месторасположение юзера, если он того пожелает.</p>
+
+<h3>Обзор свойств</h3>
+<p>Проверить доступна ли <span class="highlight">Geolocation API</span> в браузере:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+isSupported: function() {
+    return ('geolocation' in navigator);
+}
+</code></pre>
+</div>
+
+<ul class="page-list">
+  <li>navigator.geolocation.<span class="highlight">getCurrentLocation</span>(callback) - выполняет асинхронный запрос для определения местоположения юзера. Когда местоположения определится - будет вызван колбэк.</li>
+  <li>navigator.geolocation.<span class="highlight">watchLocation</span>(callback) - выполняет колбэк, каждый раз когда местоположение устройства меняется.</li>
+</ul>
+<div class="code-block">
+<pre><code class="language-javascript">
+// получили координаты
+navigator.geolocation.getCurrentPosition(function(position) {
+    // в объекте position доступны св-ва accuracy/latitude/longitude/speed и др.
+});
+
+// создали вотчер
+var watchID = navigator.geolocation.watchPosition(function(position) {
+  
+});
+
+// удалили вотчер
+navigator.geolocation.clearWatch(watchID);
+</code></pre>
+</div>
+
+<h3>Example</h3>
+<div class="code-example">
+  <p>А ты неплохо устроился... Может определим твое настоящее местоположение?</p>
+  <p><img class="map-img" src="https://avatars0.githubusercontent.com/u/5993559?v=3&s=40" alt=""> <span class="highlight">- да, да, это твое местоположение...примерное.</span></p>
+  <button class="geo">Share location</button>
+  <div class="map"></div>
+  <div class="logger"></div>
+</div>
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation">https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation</a></li>
+  <li><a target="_blank" href="http://www.w3.org/TR/geolocation-API/">http://www.w3.org/TR/geolocation-API/</a></li>
+  <li><a target="_blank" href="http://www.w3schools.com/html/html5_geolocation.asp">http://www.w3schools.com/html/html5_geolocation.asp</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVNL-_E47gKPYzvfHbhggR6gj5UI6oxvE"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<script src="geolocationAPI.js"></script>
+</body>
+</html>

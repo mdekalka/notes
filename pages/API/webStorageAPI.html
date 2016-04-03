@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Storage API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Web Storage API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Web Storage API</span> предоставляет собой хранилище, где можно хранить данные в виде ключ-значение. <span class="highlight">API</span> предоставляет два типа хранилищ:</p>
+<ul class="page-list">
+  <li><span class="highlight">sessionStorage</span> - хранилище для данных, которое доступно во время активной сессии страница(пока браузер открыт, включая перезагрузку страницы и ее восстановление)</li>
+  <li><span class="highlight">localStorage</span> - хранилище для данных, которое сохранит данные даже при закрытии и открытии браузера.</li>
+</ul>
+
+<h3>Обзор свойств</h3>
+<ul class="page-list">
+  <li><span class="highlight">Storage.getItem(keyName)</span> - принимает имя ключа и возвращает значение, если оно было найдено(если нет - вернет null).</li>
+  <li><span class="highlight">Storage.setItem(keyName, itemToSave)</span> - записывает данные в хранилище по имени ключа или обновляет их, если ключ уже существует.</li>
+  <li><span class="highlight">Storage.key(key)</span> - принимает число и возвращает имя ключа, который находился на этой позиции в хранилище.</li>
+  <li><span class="highlight">Storage.length</span> - возвращает число, которое отображает количество ключей сохраненных в хранилище.</li>
+  <li><span class="highlight">Storage.removeItem(keyName)</span> - удаляет данные из хранилища по имени ключа.</li>
+  <li><span class="highlight">Storage.clear()</span> - удаляет все данные, сохраненные в хранилище.</li>
+  <li>window.addEventListener(<span class="highlight">'storage'</span>, eventHandler) - триггерит ивент, когда данные в хранилище изменились.(<span class="highlight">!</span>ивент стриггерится только в другом окне, в активном ничего не произойдет).</li>
+</ul>
+
+
+<div class="code-block">
+<pre><code class="language-javascript">
+// добавить данные в хранилище
+set: function(keyName, itemToSave) {
+    var data;
+
+    if (keyName) {
+        try {
+            if (typeof itemToSave === 'string') {
+                data = itemToSave;
+            } else {
+                data = JSON.stringify(itemToSave);
+            }
+        } catch(e) {
+            throw new Error('Set failed');
+        }
+        storage.setItem(keyName, data);
+    }
+}
+set('name', 'myName');
+
+// достать данные из хранилища
+get: function(keyName) {
+    if (keyName) {
+        try {
+            var data = storage.getItem(keyName);
+
+            if (data[0] === '{' || data[0] === '[') {
+                return JSON.parse(data);
+            }
+            return data;
+        } catch(e) {
+            throw new Error('Get failed')
+        }
+    }
+}
+get('name');
+
+// удалить данные по имени ключа
+remove: function(keyName) {
+    storage.removeItem(keyName);
+}
+remove('name');
+
+// очистить хранилище
+clear: function() {
+    storage.clear();
+}
+clear();
+
+// вернуть количество ключей с данными
+length: function() {
+    return storage.length;
+}
+length();
+
+// вернуть имя ключа на определенной позиции в хранилище
+key: function(key) {
+    if (Number.isInteger(key)) {
+        return storage.key(key);
+    }
+}
+key(3);
+</code></pre>
+</div>
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Storage">https://developer.mozilla.org/en-US/docs/Web/API/Storage</a></li>
+  <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API</a></li>
+  <li><a target="_blank" href="https://github.com/marcuswestin/store.js/">https://github.com/marcuswestin/store.js/</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<!-- <script src="geolocationAPI.js"></script> -->
+</body>
+</html>

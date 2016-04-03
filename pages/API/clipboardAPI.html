@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>simple tabs</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Clipboard API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Clipboard API</span> дает способ приложению выполнять такие команды как <span class="highlight">cut/copy/paste</span>, вызванные действиям июзера.</p>
+
+<h3>Обзор свойств</h3>
+<ul class="page-list">
+  <li>document.addEventListener(<span class="highlight">'cut/copy/paste'</span>, eventHandler) - ивент,который триггеррится в зависимости от выполненного юзером действия.</li>
+  <li><span class="highlight">event.clipboardData.setData('text/plain', data)</span> - определяет данные, которые будут записаны в <span class="highlight">clipboard</span> при <span class="highlight">cut/copy</span> операциях.</li>
+  <li><span class="highlight">event.clipboardData.getData('text/plain')</span> - возвращает данные,которые были определены в <span class="highlight">clipboard</span> через <span class="highlight">paste</span> операцию.</li>
+  <li>document.execCommand(<span class="highlight">'cut/copy/paste'</span>) - программно вызывает выбранную операцию на данных или элементе, который находится в фокусе.</li>
+</ul>
+
+<h3>Example</h3>
+<div class="code-example">
+  <div class="row">
+    <div class="col-6">
+      <p>Пример на <span class="highlight">cut/paste</span> команды</p>
+      <textarea name="" id="cut-text" cols="30" rows="10">Привет. Нажми на кнопку и текст будет вырезан.</textarea>
+      <button class="cut-action">Cut me</button>
+    </div>
+    <div class="col-6">
+      <p>Пример на <span class="highlight">copy</span> команду</p>
+      <div class="copy-text"><p class="bordered-text">Привет. Этот текст будет скопирован, если нажать на кнопку.</p></div>
+      <button class="copy-action">Copy me</button>
+    </div>
+  </div>
+  <div class="logger"></div>
+</div>
+
+<p>Рассмотрим немного кода:</p>
+<div class="code-block">
+<pre><code class="language-javascript">
+</code></pre>
+</div>
+
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a target="_blank" href="https://www.lucidchart.com/techblog/2014/12/02/definitive-guide-copying-pasting-javascript/">https://www.lucidchart.com/techblog/2014/12/02/definitive-guide-copying-pasting-javascript/</a></li>
+  <li><a target="_blank" href="https://w3c.github.io/clipboard-apis/">https://w3c.github.io/clipboard-apis/</a></li>
+  <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent">https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent</a></li>
+  <li><a href="https://zenorocha.github.io/clipboard.js/">https://zenorocha.github.io/clipboard.js/</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<script src="clipboardAPI.js"></script>
+</body>
+</html>

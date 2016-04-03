@@ -1,0 +1,338 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background: #1a1a1a;
+  color: #989899 ;
+  font: normal 14px/1.6 Verdana, sans-serif;
+  /* Arimo  Noto Sans  Play  Exo 2*/
+  letter-spacing: 1px;
+}
+button {
+  border: none;
+  outline: none;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 300;
+  margin-bottom: 10px;
+  font-family: 'Arimo';
+  letter-spacing: 2px;
+}
+.back {
+  font-size: 15px;
+  color: #AEB6BF;
+  transition: color .2s ease;
+}
+.back:hover {
+  color: #85929E;
+}
+.page--wrapper {
+  max-width: 1200px;
+  margin:  45px auto;
+  padding: 30px 25px;
+  background: #1B1C20;
+}
+.page--wrapper .page--body {
+
+}
+.page--wrapper .page--header {
+  margin-bottom: 40px;
+}
+.page--wrapper h2 {
+  margin-bottom: 30px;
+  display: inline-block;
+  font-size: 24px;
+  color: #7db025;
+  border-bottom: 1px solid #7db025;
+}
+.page--wrapper h3 {
+  margin: 20px 0;
+  font-size: 20px;
+  color: #D6DBDF;
+}
+.page--wrapper h4 {
+  margin: 15px 0;
+  font-size: 16px;
+  font-weight: 300;
+  color: #D6DBDF;
+}
+
+.page--wrapper .page--content p {
+  margin: 15px 0;
+}
+.page--wrapper .code-block {
+  position: relative;
+}
+.page--wrapper .code-block:hover .clipboard {
+  display: block;
+}
+
+.page--wrapper .page-links {
+  color: #000;
+}
+.page--wrapper .page-links li {
+  color: #D6DBDF;
+}
+.page--wrapper .page-links a {
+  display: inline-block;
+  margin: 5px 0;
+  color: #8BB73A;
+}
+.page--wrapper .page-links a:hover {
+  color: #7db025;
+}
+
+.highlight {
+  color: #89b025;
+}
+
+.page-list {
+  position: relative;
+  margin-bottom: 15px;
+}
+.page-list li {
+  padding-left: 13px;
+}
+.page-list li::before {
+  position: absolute;
+  left: 0px;
+  content: '\00bb';
+  display: inline-block;
+  color: #89b025;
+}
+.page-list li ul {
+  margin-left: 15px;
+}
+.page-list li ul li::before {
+  content: '∙';
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 8px;
+  background: #1B1C20;
+}
+::-webkit-scrollbar-thumb {
+  background: #121215;
+  -webkit-border-radius: 15px;
+}
+
+.code-example {
+  background: #000;
+  padding: 1em;
+  border-radius: .3em;
+}
+.code-example::after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+.code-example .notification-status span {
+  color: #a6e22e;
+}
+
+textarea {
+  display: block;
+  width: 300px;
+  background: #000;
+  outline: none;
+  border: 1px solid #D6DBDF;
+  color: #989899;
+  padding: 8px;
+  font: normal 15px/1.2 Verdana;
+}
+textarea:focus,
+textarea:active {
+  border: 1px solid #89b025;
+}
+
+button {
+  margin: 10px 0;
+  display: inline-block;
+  padding: 8px 25px;
+  background: #1B1C20;
+  color: #D6DBDF;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+button:hover,
+button:focus {
+  background: #89b025;
+  color: #000;
+}
+button:active {
+  background: #a6e22e;
+  color: #000;
+}
+
+.file-input {
+  display: inline-block;
+  padding: 8px 25px;
+  position: relative;
+  overflow: hidden;
+  color: #89b025;
+  background: #1B1C20;
+  font-size: 15px;
+  cursor: pointer;
+}
+.file-input:hover {
+  background: #89b025;
+  color: #000;
+}
+input[type="file"] {
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  min-width: 100%; 
+  min-height: 100%; 
+  opacity: 0; 
+  outline: none;
+  cursor: inherit;
+  display: block;
+}
+
+form {
+  margin: 15px 0;
+}
+form .form-row {
+  margin-bottom: 15px;
+}
+form .form-row input {
+  width: 200px;
+  border: none;
+  outline: none;
+  padding: 5px 4px;
+  background: #1B1C20;
+  color: #D6DBDF;
+  border: 1px solid transparent;
+  font: normal 14px/1.5 'Arimo', Verdana, sans-serif;
+  transition: border .1s ease-in;
+}
+form .form-row input:focus {
+  border: 1px solid #a6e22e;
+}
+
+.notification-example {
+  float: left;
+}
+
+.loggerArea {
+  float: right;
+  width: 300px;
+  height: 250px;
+  overflow: auto;
+}
+.loggerArea {
+  font-size: 14px;
+}
+.visibility-logger {
+  margin: 25px 0 ;
+  max-height: 250px;
+  overflow: auto;
+}
+
+
+.row {
+
+}
+.row::after {
+  content: '';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+}
+.col-6  {
+  float: left;
+  width: 50%;
+}
+
+.bordered-text {
+  display: inline-block;
+  border-bottom: 1px solid #89b025;
+}
+
+.logger {
+  margin: 15px 0;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.map {
+  width: 100%;
+  height: 500px;
+}
+
+.map-img {
+  vertical-align: middle;
+}
+
+.fullscreen-img {
+  background: #000;
+  position: relative;
+}
+.fullscreen-img:-moz-full-screen img {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* INDEX PAGE */
+.blog--title {
+  text-align: center;
+}
+.blog--title .github-link {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  overflow: hidden;
+  border: 2px solid transparent;
+  opacity: .8;
+  transition: border-color .5s cubic-bezier(0.075, 0.82, 0.165, 1), opacity .2s ease;
+}
+.blog--title .github-link:hover {
+  border: 2px solid #7db025;
+  opacity: 1;
+}
+.blog--title img {
+  width: 100%;
+}
+.blog--body {
+  margin: 45px auto;
+}
+.blog--posts li {
+  margin: 20px 0;
+}
+.blog--post {
+  display: block;
+  background: #141414;
+  padding: 15px;
+  transition: background-color .1s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+.blog--post:hover {
+  background: #070707;
+}
+.blog--post-header {
+  display: flex;
+  justify-content: space-between;
+  color: #7db025;
+}
+.blog--post-title {
+}
+.blog--post-date {
+  padding-left: 25px;
+}

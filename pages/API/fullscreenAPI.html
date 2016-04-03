@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fullscreen API</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+</head>
+<body>
+<!-- page wrapper -->
+<div class="page--wrapper">
+  <!-- page body -->
+  <div class="page--body">
+    <div class="page--header">
+      <a class="back" href="#">&#10094; Back</a>
+    </div>
+    <!-- page content -->
+    <div class="page--content">
+<h2>Fullscreen API</h2>
+<h3>Определение</h3>
+<p><span class="highlight">Fullscreen API</span> позволяет приложению переходить в фулл-скрин режим.</p>
+
+<h3>Обзор свойств</h3>
+<ul class="page-list">
+  <li><span class="highlight">document.fullscreenEnabled</span> - возвращает boolean значение, показывающее доступен/разрешен ли фулл-скрин режим.</li>
+  <li><span class="highlight">element.requestFullscreen()</span> - отправляет запрос на фулл-скрин режим для выбранного элемента. Возвращает <span class="highlight">resolved Promise</span>, если запрос был успешен.</li>
+  <li><span class="highlight">document.fullscreenElement</span> - возвращает ссылку на элемент, который сейчас находится в фулл-скрин режиме.</li>
+  <li><span class="highlight">document.addEventListener('fullscreenchange', eventHandler)</span> - ивент, который триггерится на включение/отключение фулл-скрин режима.</li>
+</ul>
+
+<div class="code-block">
+<pre><code class="language-javascript">
+// Передать элемент и сделать запрос на фулл-скрин режим
+function onFullScreenHandlerThis(element, event) {
+    var _this = this;
+
+    if (element) {
+        var fsPromise = element[requestFullscreen]();
+
+        if (fsPromise && fsPromise.catch) {
+            maybePromise.catch(function(error) {
+                _this.addLog('Cannot acquire fullscreen mode: ' + error);
+            });
+        }
+    }
+};
+
+// Закрыть фулл-скрин режим
+document.exitFullscreen();
+</code></pre>
+</div>
+
+<h3>Example</h3>
+<div class="code-example">
+  <p>При клике на кнопку вся страница перейдет в фулл-скрин режим.</p>
+  <button class="fullscreen-document">Fullscreen page</button>
+  <p>При клике на кнопку в фулл-скрин режим перейдет только аватар.</p>
+  <div class="fullscreen-img">
+    <img src="https://avatars1.githubusercontent.com/u/5993559?v=3&s=460" alt="">
+  </div>
+  <button class="fullscreen-avatar">Fullscreen avatar</button>
+  <div class="logger"></div>
+</div>
+
+<h3>Линки</h3>
+<ul class="page-links">
+  <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API">https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API</a></li>
+  <li><a target="_blank" href="http://www.sitepoint.com/use-html5-full-screen-api/">http://www.sitepoint.com/use-html5-full-screen-api/</a></li>
+  <li><a target="_blank" href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a></li>
+</ul>
+
+</div>
+    <!-- end of page content -->
+  </div>
+  <!-- end of page body -->
+</div>
+<!-- end of page wrapper -->
+
+
+<script src="../../js/libs/jquery-1.11.3.js"></script>
+<script src="../../js/utils.js"></script>
+<script src="../../js/libs/prism.js"></script>
+<script src="../../js/main.js"></script>
+<script src="fullScreenAPI.js"></script>
+</body>
+</html>
